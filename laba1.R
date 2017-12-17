@@ -1,52 +1,55 @@
-df <- read.table('./input.txt', header=FALSE, sep = ',')
+Sys.setlocale(category = "LC_ALL", locale = "Russian")
 
-#Ð¾Ñ‚ÑÐ¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¹ Ð´Ð°Ñ‚Ð°ÑÐµÑ‚
+
+df <- read.table('./data/input.txt', header=FALSE, sep = ',')
+
+# îòñîðòèðîâàííûé äàòà ôðýéì
 sorted_df <- df[order(df)]
 
-#Ð²ÐµÐºÑ‚Ð¾Ñ€ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ð¹
+# âåêòîð çíà÷åíèé 
 vector_df <- as.double(sorted_df)
 
-#Ð²Ð°Ñ€Ð¸Ð°Ñ†Ð¸Ð¾Ð½Ð½Ñ‹Ð¹ Ñ€ÑÐ´
+# âàðèàöèîîíûé ðÿä
 variational_series <- as.data.frame(table(vector_df))
 
 min_df <- min(vector_df)
 
 max_df <- max(vector_df)
 
-#Ñ€Ð°Ð·Ð¼Ð°Ñ… Ð²Ñ‹Ð±Ð¾Ñ€ÐºÐ¸
+# ðàçìàõ âûáîðêè
 sample_r <- max_df - min_df
 
-#Ð²Ñ‹Ð±Ð¾Ñ€Ð¾Ñ‡Ð½Ð¾Ðµ ÑÑ€ÐµÐ´Ð½ÐµÐµ
+# âûáîðî÷íîå ñðåäíåå
 sample_mean <- rowMeans(df)
 
 df_length <- length(df)
 
-#Ð²Ñ‹Ð±Ð¾Ñ€Ð¾Ñ‡Ð½Ð°Ñ Ð´Ð¸ÑÐ¿ÐµÑ€ÑÐ¸Ñ
+# âûáîðî÷íàÿ äèñïåðñèÿ
 sample_var <- var(vector_df) * (df_length - 1) / df_length
 
-#Ð¸ÑÐ¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð½Ð°Ñ Ð²Ñ‹Ð±Ð¾Ñ€Ð¾Ñ‡Ð½Ð°Ñ Ð´Ð¸ÑÐ¿ÐµÑ€ÑÐ¸Ñ
+# èñïðàâëåííàÿ äèñïåðñèÿ
 population_variance <- sd(vector_df)
 
-#Ð¼ÐµÐ´Ð¸Ð°Ð½Ð°
+# ìåäèàíà
 median_df <- median(vector_df)
 
-#Ð½Ð¸Ð¶Ð½ÑÑ ÐºÐ²Ð°Ñ€Ñ‚Ð¸Ð»ÑŒ
+# íèæíÿÿ êâàðòèëü
 quantile_low <- unname(quantile(vector_df, 1/4))
 
-#Ð²ÐµÑ€Ñ…Ð½ÑÑ ÐºÐ²Ð°Ñ€Ñ‚Ð¸Ð»ÑŒ
+# âåðõíÿÿ êâàðòèëü
 quantile_high <- unname(quantile(vector_df, 3/4))
 
-#Ð²Ñ‹Ð±Ð¾Ñ€Ð¾Ñ‡Ð½Ð°Ñ ÐºÐ²Ð°Ð½Ð¸Ñ‚Ð¸Ð»ÑŒ Ð¿Ð¾Ñ€ÑÐ´ÐºÐ° 1/3
+# êâàíòèëü ïîðÿäêà 1/3
 quatile_3 = unname(quantile(vector_df, 1/3))
 
-#Ð³Ð¸ÑÑ‚Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ð° 1
+# ãèñòîãðàììà 1
 hist(vector_df, probability = TRUE, col="gray")
 
 lines(table(vector_df), col="pink", lty="dotted")
 
 lines(dnorm(vector_df,mean=median_df, sd=population_variance), col="red")
 
-#Ð³Ð¸ÑÑ‚Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ð° 2
+# ãèñòîãðàììà 2
 plot(ecdf(vector_df))
 lines(density(vector_df), col="green")
 
